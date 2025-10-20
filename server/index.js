@@ -25,5 +25,5 @@ app.use("/api/", userRouter);
 
 app.listen(port, () => {
   connectDB();
-  console.log(`✅ Server started on port ${port}`);
+  console.log(` Server started on port ${port}`);
 });
