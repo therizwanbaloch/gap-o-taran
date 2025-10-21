@@ -75,7 +75,7 @@ const Profile = () => {
           Back
         </button>
 
-        {/* Profile image with bottom black shadow */}
+      
         <div className="relative mb-6 mt-6 rounded-full border-4 border-emerald-600 shadow-[0_8px_15px_rgba(0,0,0,0.35)] p-1">
           <img
             src={imagePreview}

@@ -36,7 +36,6 @@ className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
        /> <span className="text-xl font-bold text-emerald-600 transition-colors duration-300 hover:text-emerald-800">
 Gap-O-Taran </span> </Link>
 
-```
     {/* Desktop Navigation */}
     <div className="hidden md:flex items-center space-x-8">
       {navItems.map((item, index) => (

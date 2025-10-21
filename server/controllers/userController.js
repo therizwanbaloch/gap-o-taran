@@ -25,7 +25,7 @@ export const editProfile = async (req, res) => {
 
     if (req.file) {
       const imageUrl = await uploadOnCloudinary(req.file.path);
-      if (imageUrl) updateData.image = imageUrl.url || imageUrl; // handles both types
+      if (imageUrl) updateData.image = imageUrl.url || imageUrl; 
     }
 
     const user = await User.findByIdAndUpdate(req.user.id, updateData, {
@@ -38,5 +38,22 @@ export const editProfile = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+export const getOtherUsers = async (req, res) => {
+  try {
+    console.log("Authenticated user:", req.user);
+    const loggedInUserId = req.user?.id;
+    if (!loggedInUserId) {
+      return res.status(401).json({ success: false, message: "Not authenticated" });
+    }
+
+    const users = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch users" });
   }
 };

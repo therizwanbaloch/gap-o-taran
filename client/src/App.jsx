@@ -12,16 +12,17 @@ import TermsOfService from "./pages/TermsOfService";
 import getCurrentUser from "./hooks/getCurrentUser";
 import About from "./components/About";
 import Profile from "./pages/Profile";
+import useOtherUsers from "./hooks/getOtherUsers";
 
 const App = () => {
   getCurrentUser();
+  useOtherUsers();
   const { userData } = useSelector((state) => state.user);
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={userData ? <ChatPage /> : <Home />} /> */}
-        <Route path="/" element={userData ? <Profile /> : <Home />} />
+        <Route path="/" element={userData ? <ChatPage /> : <Home />} />
         <Route
           path="/login"
           element={userData ? <Navigate to="/" /> : <Login />}

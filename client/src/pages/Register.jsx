@@ -30,7 +30,7 @@ const Register = () => {
       );
 
       dispatch(setUserData(response.data));
-      navigate("/");
+      navigate("/profile");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }
