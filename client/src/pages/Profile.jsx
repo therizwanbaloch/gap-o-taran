@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LuUpload } from "react-icons/lu";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import dp from "../assets/dp.webp";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setUserData } from "../redux/userSlice.js";
 

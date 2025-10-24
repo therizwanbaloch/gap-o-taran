@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FiSearch, FiX, FiLogOut } from "react-icons/fi";
 import dp from "../assets/dp.webp";
-import { setUserData, setOtherUsers } from "../redux/userSlice";
+import { setUserData, setOtherUsers, setSelectedUser } from "../redux/userSlice";
 
 const SideBar = () => {
-  const { userData, otherUsers } = useSelector((state) => state.user);
+  const { userData, otherUsers, selectedUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchActive, setSearchActive] = useState(false);
@@ -35,7 +35,11 @@ const SideBar = () => {
   const inlineUsers = filteredUsers?.slice(0, 4);
 
   return (
-    <div className="relative lg:w-[30%] w-full h-[100vh] bg-slate-200 flex flex-col overflow-hidden">
+    <div
+      className={`relative lg:w-[30%] w-full h-[100vh] bg-slate-200 flex flex-col overflow-hidden ${
+        selectedUser ? "hidden lg:flex" : "flex"
+      }`}
+    >
       {/* Header */}
       <div className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 px-5 py-3 flex items-center justify-between rounded-b-lg shadow-md">
         <h1 className="text-white font-extrabold text-lg tracking-wide drop-shadow-md">
@@ -89,7 +93,7 @@ const SideBar = () => {
                     alt={user.name}
                     title={user.name}
                     className="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-all shadow-sm border border-white/40"
-                    onClick={() => navigate(`/chat/${user._id}`)}
+                    onClick={() => dispatch(setSelectedUser(user))}
                   />
                 ))
               ) : (
@@ -114,7 +118,7 @@ const SideBar = () => {
             <div
               key={user._id}
               className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 cursor-pointer hover:bg-emerald-100 transition-colors duration-200 shadow-sm"
-              onClick={() => navigate(`/chat/${user._id}`)}
+              onClick={() => dispatch(setSelectedUser(user))}
             >
               <img
                 src={user.image || dp}
