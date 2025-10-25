@@ -6,6 +6,6 @@ import { getMessages, sendMessage } from "../controllers/messageController.js";
 const messageRouter = express.Router();
 
 messageRouter.post("/send/:receiver", isAuth, upload.single("image"), sendMessage);
-messageRouter.get("/send/:receiver", isAuth, upload.single("image"), getMessages);
+messageRouter.get("/get/:receiver", isAuth, upload.single("image"), getMessages);
 
 export default messageRouter;

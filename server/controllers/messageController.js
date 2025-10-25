@@ -3,10 +3,10 @@ import conversationModel from "../models/conversationModel.js";
 import messageModel from "../models/messageModel.js";
 
 
-// ✅ SEND MESSAGE
 export const sendMessage = async (req, res) => {
   try {
-    const sender = req.userId;
+    
+    const sender = req.user.id || req.user._id;
     const { receiver } = req.params;
     const { message } = req.body;
 
@@ -17,7 +17,7 @@ export const sendMessage = async (req, res) => {
       imageUrl = uploadResult?.url || "";
     }
 
-    // find or create conversation
+    
     let conversation = await conversationModel.findOne({
       participants: { $all: [sender, receiver] },
     });
@@ -55,30 +55,24 @@ export const sendMessage = async (req, res) => {
 };
 
 
-// ✅ GET MESSAGES (between two users)
 export const getMessages = async (req, res) => {
   try {
-    const sender = req.userId;
+    const sender = req.user.id || req.user._id;
     const { receiver } = req.params;
 
-    const conversation = await conversationModel
-      .findOne({
-        participants: { $all: [sender, receiver] },
+    const messages = await messageModel
+      .find({
+        $or: [
+          { sender, receiver },
+          { sender: receiver, receiver: sender },
+        ],
       })
-      .populate("messages");
-
-    if (!conversation) {
-      return res.status(200).json({
-        success: true,
-        message: "No conversation found",
-        data: [],
-      });
-    }
+      .sort({ createdAt: 1 });
 
     return res.status(200).json({
       success: true,
       message: "Messages fetched successfully",
-      data: conversation.messages,
+      data: messages,
     });
   } catch (error) {
     console.error("Error getting messages:", error);
@@ -89,3 +83,4 @@ export const getMessages = async (req, res) => {
     });
   }
 };
+
